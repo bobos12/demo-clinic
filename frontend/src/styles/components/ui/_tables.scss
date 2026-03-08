@@ -1,0 +1,247 @@
+// ============================================
+// TABLE COMPONENT STYLES
+// Responsive: horizontal scroll on small screens; touch-friendly
+// ============================================
+
+@import '../../base/variables';
+
+// ============================================
+// TABLE CONTAINER – prevent page overflow
+// ============================================
+.table-container,
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  border-radius: $border-radius-md;
+  background-color: $color-bg-primary;
+  -webkit-overflow-scrolling: touch;
+}
+
+// ============================================
+// DATA TABLE
+// ============================================
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: $color-bg-primary;
+}
+
+// ============================================
+// TABLE HEADER
+// ============================================
+thead {
+  background-color: $grey-50;
+}
+
+.table-header-row {
+  border-bottom: $border-width-thin solid $grey-200;
+}
+
+.table-header,
+th {
+  padding: $spacing-sm $spacing-md;
+  text-align: left;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+
+  @media (min-width: $breakpoint-sm) {
+    padding: $spacing-md $spacing-lg;
+  }
+}
+
+// ============================================
+// TABLE BODY
+// ============================================
+tbody {
+  tr {
+    border-bottom: $border-width-thin solid $grey-200;
+    transition: background-color $transition-fast;
+    
+    &:hover {
+      background-color: $grey-50;
+    }
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.table-row {
+  &:nth-child(even) {
+    background-color: $grey-50;
+  }
+  
+  &:hover {
+    background-color: $grey-100;
+  }
+}
+
+.table-cell,
+td {
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+
+  @media (min-width: $breakpoint-sm) {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-md;
+  }
+
+  &.cell-name {
+    font-weight: $font-weight-medium;
+  }
+
+  &.cell-code {
+    font-family: monospace;
+    color: $color-text-secondary;
+  }
+
+  &.cell-phone {
+    color: $color-text-secondary;
+  }
+
+  &.cell-age {
+    text-align: center;
+  }
+
+  &.cell-gender {
+    text-transform: capitalize;
+  }
+
+  &.cell-complaint {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @media (min-width: $breakpoint-sm) {
+      max-width: 180px;
+    }
+  }
+
+  &.cell-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-xs;
+    white-space: nowrap;
+
+    .btn-small {
+      min-height: 36px;
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-xs;
+
+      @media (min-width: $breakpoint-xs) {
+        min-height: $touch-target-min;
+        padding: $spacing-sm $spacing-md;
+        font-size: $font-size-sm;
+      }
+    }
+  }
+  
+  &.cell-empty,
+  &.empty-cell {
+    text-align: center;
+    padding: $spacing-2xl;
+    color: $color-text-disabled;
+    
+    svg {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto $spacing-md;
+      opacity: 0.5;
+    }
+    
+    p {
+      font-size: $font-size-md;
+      margin: 0;
+    }
+  }
+}
+
+// ============================================
+// TABLE CARD (for dashboard tables)
+// ============================================
+.table-card {
+  background-color: $color-bg-primary;
+  border-radius: $border-radius-lg;
+  border: $border-width-thin solid $grey-200;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  border-bottom: $border-width-thin solid $grey-200;
+  background-color: $grey-50;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0;
+  
+  .title-icon {
+    width: 20px;
+    height: 20px;
+    color: $color-primary;
+  }
+}
+
+.view-all-btn {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-primary;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  transition: all $transition-fast;
+  
+  &:hover {
+    background-color: rgba($color-primary, 0.1);
+  }
+}
+
+// ============================================
+// RESPONSIVE TABLE – horizontal scroll on small screens
+// ============================================
+.data-table {
+  width: 100%;
+  min-width: 0;
+
+  @media (max-width: $breakpoint-sm) {
+    min-width: 560px; // Allows horizontal scroll; keeps columns readable
+  }
+}
+
+.card-header {
+  @media (max-width: $breakpoint-xs) {
+    padding: $spacing-md;
+  }
+}
+
+.view-all-btn {
+  min-height: 36px;
+  padding: $spacing-sm $spacing-md;
+
+  @media (min-width: $breakpoint-xs) {
+    min-height: $touch-target-min;
+  }
+}

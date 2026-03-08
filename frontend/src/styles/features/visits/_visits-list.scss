@@ -1,0 +1,49 @@
+// ============================================
+// VISITS LIST STYLES
+// ============================================
+
+@import '../../base/variables';
+@import '../shared';
+
+// ============================================
+// VISITS LIST SPECIFIC STYLES
+// ============================================
+
+.header-title-section {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.cell-date {
+  color: $color-text-secondary;
+  font-size: $font-size-sm;
+}
+
+.cell-complaint {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: $color-text-secondary;
+}
+
+// ============================================
+// RESPONSIVE – use breakpoint variables
+// ============================================
+@media (max-width: $breakpoint-sm) {
+  .header-title-section {
+    width: 100%;
+
+    .btn-small {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-xs) {
+  .cell-complaint {
+    max-width: 100px;
+  }
+}

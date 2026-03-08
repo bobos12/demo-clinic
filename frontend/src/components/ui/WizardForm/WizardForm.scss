@@ -1,0 +1,180 @@
+// ============================================
+// WIZARD FORM STYLES
+// ============================================
+
+@import '../../../styles/base/variables';
+
+.wizard-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0; // Allows flex shrinking
+  overflow: hidden;
+}
+
+.wizard-content {
+  flex: 1;
+  padding: $spacing-xl;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0; // Allows flex shrinking
+  max-height: 100%; // Prevent overflow
+  -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+  
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $grey-100;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $grey-300;
+    border-radius: 4px;
+    
+    &:hover {
+      background: $grey-400;
+    }
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-lg;
+  }
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-md;
+  }
+  @media (max-width: $breakpoint-xs) {
+    padding: $spacing-sm;
+  }
+}
+
+.wizard-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg $spacing-xl;
+  background-color: $grey-50;
+  border-top: $border-width-thin solid $grey-200;
+  gap: $spacing-md;
+  flex-shrink: 0; // Prevent navigation from shrinking
+  
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: $spacing-md;
+    gap: $spacing-sm;
+
+    .wizard-nav-buttons {
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: $spacing-xs;
+    }
+  }
+}
+
+.wizard-nav-left {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+}
+
+.wizard-nav-buttons {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn-step {
+  min-width: 120px;
+  min-height: $touch-target-min;
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  border-radius: $border-radius-md;
+  transition: all $transition-base;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+  border: none;
+
+  @media (max-width: $breakpoint-sm) {
+    width: auto;
+    min-width: 0;
+    min-height: 40px;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+  }
+  
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  &.btn-prev {
+    background-color: $grey-100;
+    color: $color-text-primary;
+    border: $border-width-thin solid $grey-300;
+    
+    &:hover:not(:disabled) {
+      background-color: $grey-200;
+      transform: translateY(-1px);
+      box-shadow: $shadow-sm;
+    }
+  }
+  
+  &.btn-next {
+    background-color: $color-primary;
+    color: $color-bg-primary;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-primary;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+  }
+  
+  &.btn-submit {
+    background-color: $color-success;
+    color: $color-bg-primary;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-success;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+  }
+  
+  &.btn-cancel {
+    background-color: $grey-100;
+    color: $color-text-primary;
+    border: $border-width-thin solid $grey-300;
+    
+    &:hover {
+      background-color: $grey-200;
+    }
+  }
+
+  &.btn-danger {
+    background-color: $color-error;
+    color: $color-bg-primary;
+
+    &:hover:not(:disabled) {
+      background-color: darken($color-error, 5%);
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

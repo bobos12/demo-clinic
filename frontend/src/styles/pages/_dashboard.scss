@@ -1,0 +1,278 @@
+// ============================================
+// DASHBOARD PAGE STYLES
+// Mobile-first responsive layout
+// ============================================
+
+@import '../base/variables';
+
+.dashboard {
+  min-height: 100vh;
+  padding: $spacing-md;
+  background-color: $color-bg-secondary;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+
+  @media (min-width: $breakpoint-sm) {
+    padding: $spacing-lg;
+  }
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-xl;
+  }
+}
+
+// ============================================
+// DASHBOARD HEADER
+// ============================================
+.dashboard-header {
+  margin-bottom: $spacing-xl;
+}
+
+.header-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+
+  @media (max-width: $breakpoint-xs) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.header-text {
+  flex: 1;
+}
+
+.dashboard-title {
+  font-size: clamp($font-size-h2, 5vw, $font-size-h1);
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+  word-wrap: break-word;
+}
+
+.dashboard-subtitle {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  margin: 0;
+  
+  strong {
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+// ============================================
+// QUICK ACTIONS
+// ============================================
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-md;
+
+  @media (max-width: $breakpoint-sm) {
+    width: 100%;
+    flex-direction: column;
+
+    .action-btn {
+      width: 100%;
+      min-height: 52px;
+    }
+  }
+}
+
+.quick-actions {
+  @keyframes dashboard-breathing {
+    0% {
+      transform: translateY(0) scale(1);
+      box-shadow: none;
+    }
+    50% {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: $shadow-md;
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      box-shadow: none;
+    }
+  }
+}
+
+.quick-actions .action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-lg $spacing-xl;
+  min-height: 56px;
+  border-radius: $border-radius-md;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
+  transition: all $transition-base;
+  border: none;
+  
+  &.primary {
+    background-color: $color-primary;
+    color: $color-bg-primary;
+    
+    &:hover {
+      background-color: darken($color-primary, 5%);
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+  }
+  
+  &.secondary {
+    background-color: $color-secondary;
+    color: $color-bg-primary;
+    
+    &:hover {
+      background-color: darken($color-secondary, 5%);
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+  }
+  
+  .btn-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+// Desktop-only breathing effect for main actions (not distracting)
+@media (min-width: $breakpoint-md) {
+  .quick-actions .action-btn.primary,
+  .quick-actions .action-btn.secondary {
+    animation: dashboard-breathing 2.6s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .quick-actions .action-btn.secondary {
+    animation-delay: 0.25s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quick-actions .action-btn.primary,
+    .quick-actions .action-btn.secondary {
+      animation: none;
+      transform: none;
+    }
+  }
+}
+
+// ============================================
+// DASHBOARD ALERT
+// ============================================
+.dashboard-alert {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-lg;
+  background-color: rgba($color-error, 0.1);
+  border: $border-width-thin solid rgba($color-error, 0.2);
+  border-radius: $border-radius-md;
+  color: $color-error;
+  font-size: $font-size-md;
+  
+  .alert-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+}
+
+// ============================================
+// STATS GRID – single column on small screens
+// ============================================
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+
+  @media (min-width: $breakpoint-xs) {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: $spacing-lg;
+  }
+  @media (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+// ============================================
+// TABLES GRID – stacked on small/medium screens
+// ============================================
+.tables-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  min-width: 0;
+
+  @media (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  }
+}
+
+// ============================================
+// TABLE CARD – responsive header
+// ============================================
+// Dashboard table cards – prevent overflow on small screens
+.dashboard .table-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dashboard .card-header {
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+
+  @media (max-width: $breakpoint-xs) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.dashboard .table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+// ============================================
+// LOADING STATE
+// ============================================
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: min(400px, 60vh);
+  gap: $spacing-md;
+  padding: $spacing-lg;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid $grey-200;
+  border-top-color: $color-primary;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+}

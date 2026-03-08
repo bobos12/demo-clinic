@@ -1,0 +1,481 @@
+// ============================================
+// SIDEBAR COMPONENT STYLES
+// Mobile: collapsible drawer with overlay
+// Desktop: fixed sidebar
+// ============================================
+
+@import '../../base/variables';
+
+// --------------------------------------------
+// MOBILE TOP BAR (hamburger + logo)
+// Visible only below $breakpoint-sm; provides touch target to open drawer
+// --------------------------------------------
+.mobile-topbar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: $color-bg-primary;
+  border-bottom: $border-width-thin solid $grey-200;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $spacing-md;
+  z-index: $z-index-fixed - 1; // Below sidebar so sidebar overlays
+  box-shadow: $shadow-sm;
+
+  @media (max-width: $breakpoint-sm) {
+    display: flex;
+  }
+}
+
+.mobile-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $touch-target-min;
+  height: $touch-target-min;
+  border-radius: $border-radius-md;
+  color: $color-text-primary;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $grey-100;
+  }
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+.hamburger-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.mobile-topbar-logo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: $touch-target-min;
+  padding: 0 $spacing-sm;
+}
+
+.mobile-logo-text {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.mobile-topbar-user {
+  width: $touch-target-min;
+  height: $touch-target-min;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: $border-radius-full;
+  background: linear-gradient(135deg, $color-primary 0%, darken($color-primary, 10%) 100%);
+  color: $color-bg-primary;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// --------------------------------------------
+// OVERLAY (mobile only – dims content when drawer is open)
+// Must sit BELOW the sidebar so sidebar nav remains clickable.
+// --------------------------------------------
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: $z-index-sticky; // Below sidebar ($z-index-fixed) so drawer is on top
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $transition-base, visibility $transition-base;
+
+  @media (max-width: $breakpoint-sm) {
+    display: block;
+  }
+
+  &.sidebar-overlay--open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// --------------------------------------------
+// SIDEBAR (drawer on mobile, fixed on desktop)
+// --------------------------------------------
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: $sidebar-width;
+  height: 100vh;
+  background-color: $color-bg-primary;
+  border-right: $border-width-thin solid $grey-200;
+  display: flex;
+  flex-direction: column;
+  z-index: $z-index-fixed;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: transform $transition-base;
+  // For mobile close button positioning
+  isolation: isolate;
+
+  @media (max-width: $breakpoint-sm) {
+    width: min(100vw - 48px, $sidebar-width);
+    max-width: $sidebar-width;
+    transform: translateX(-100%);
+    box-shadow: $shadow-xl;
+
+    &.sidebar--open {
+      transform: translateX(0);
+    }
+  }
+}
+
+// Desktop collapsed state (app main expands)
+.sidebar--collapsed {
+  @media (min-width: $breakpoint-sm) {
+    transform: translateX(-100%);
+  }
+}
+
+// Desktop "open sidebar" floating button
+.desktop-sidebar-open-btn {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 0 $border-radius-md $border-radius-md 0;
+  background: linear-gradient(135deg, $color-primary 0%, darken($color-primary, 10%) 100%);
+  border: $border-width-thin solid rgba($color-primary, 0.35);
+  box-shadow: $shadow-lg;
+  color: $color-bg-primary;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-index-fixed + 1;
+
+  svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    &.desktop-sidebar-open-btn--visible {
+      display: flex;
+    }
+  }
+
+  &:hover {
+    box-shadow: $shadow-xl;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+// Desktop collapse button inside sidebar
+.sidebar-collapse-btn {
+  display: none;
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  width: 44px;
+  height: 44px;
+  border-radius: $border-radius-md;
+  background-color: $grey-50;
+  border: $border-width-thin solid $grey-200;
+  box-shadow: $shadow-sm;
+  color: $color-text-primary;
+  transition: background-color $transition-fast, color $transition-fast;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    display: flex;
+  }
+
+  &:hover {
+    background-color: $grey-100;
+    box-shadow: $shadow-md;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+// Close button inside sidebar (mobile only) – touch-friendly
+.sidebar-close-btn {
+  display: none;
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  width: $touch-target-min;
+  height: $touch-target-min;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-md;
+  color: $color-text-secondary;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  &:hover {
+    background-color: $grey-100;
+    color: $color-text-primary;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    display: flex;
+  }
+}
+
+// ============================================
+// LOGO SECTION
+// ============================================
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg $spacing-md;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+  
+  &:hover {
+    background-color: $grey-50;
+  }
+}
+
+.logo-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $color-primary 0%, darken($color-primary, 10%) 100%);
+  border-radius: $border-radius-md;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  color: $color-bg-primary;
+}
+
+.logo-text {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  white-space: nowrap;
+}
+
+// ============================================
+// NAVIGATION
+// ============================================
+.sidebar-nav {
+  flex: 1;
+  padding: $spacing-md 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  margin: 0 $spacing-md;
+  border-radius: $border-radius-md;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+  transition: all $transition-base;
+  text-align: left;
+  width: calc(100% - #{$spacing-md * 2});
+  
+  &:hover {
+    background-color: $grey-50;
+    color: $color-text-primary;
+  }
+  
+  &.active {
+    background-color: $color-primary;
+    color: $color-bg-primary;
+    
+    .nav-icon {
+      color: $color-bg-primary;
+    }
+  }
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: inherit;
+  transition: color $transition-fast;
+}
+
+.nav-text {
+  flex: 1;
+  white-space: nowrap;
+}
+
+// ============================================
+// ADMIN SECTION
+// ============================================
+.admin-section {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: $border-width-thin solid $grey-200;
+}
+
+.dropdown-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform $transition-base;
+  
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.dropdown-menu {
+  margin-top: $spacing-xs;
+  margin-left: $spacing-lg;
+  padding-left: $spacing-md;
+  border-left: 2px solid $grey-200;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  transition: all $transition-fast;
+  
+  &:hover {
+    background-color: $grey-50;
+    color: $color-text-primary;
+  }
+}
+
+.dropdown-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+// ============================================
+// USER SECTION
+// ============================================
+.sidebar-user {
+  padding: $spacing-md;
+  border-top: $border-width-thin solid $grey-200;
+  background-color: $color-bg-primary;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-full;
+  background: linear-gradient(135deg, $color-primary 0%, darken($color-primary, 10%) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-bg-primary;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-md;
+  flex-shrink: 0;
+}
+
+.user-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  text-transform: capitalize;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: white;
+  transition: all $transition-fast;
+  background-color: red;
+  &:hover {
+    background-color: darkred;
+  }
+}
+
+.logout-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.logout-text {
+  white-space: nowrap;
+}
