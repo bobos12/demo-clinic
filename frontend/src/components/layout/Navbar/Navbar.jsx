@@ -52,6 +52,9 @@ const Navbar = () => {
       return null;
     }
 
+    const displayName = user?.name || user?.username || user?.email || "User";
+    const userInitial = String(displayName).trim().charAt(0).toUpperCase() || "U";
+
     const handleLogout = () => {
       logout();
       navigate("/login");
@@ -101,7 +104,7 @@ const Navbar = () => {
           <span className="mobile-logo-text">Eye Clinic</span>
         </div>
         <div className="mobile-topbar-user" aria-hidden="true">
-          <span className="mobile-user-avatar">{user.name.charAt(0).toUpperCase()}</span>
+          <span className="mobile-user-avatar">{userInitial}</span>
         </div>
       </header>
 
@@ -250,11 +253,11 @@ const Navbar = () => {
       <div className="sidebar-user">
         <div className="user-info">
           <div className="user-avatar">
-            <span>{user.name.charAt(0).toUpperCase()}</span>
+            <span>{userInitial}</span>
           </div>
           <div className="user-details">
-            <div className="user-name">{user.name}</div>
-            <div className="user-role">{user.role}</div>
+            <div className="user-name">{displayName}</div>
+            <div className="user-role">{user?.role || ""}</div>
           </div>
         </div>
         <button className="logout-btn" onClick={handleLogout} title="Logout">
