@@ -9,6 +9,9 @@ coverage/
 # Vite cache
 .vite/
 
+# npm cache (created by some install commands)
+.npm-cache/
+
 # env files
 .env
 .env.*

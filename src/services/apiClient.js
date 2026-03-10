@@ -1,87 +1,19 @@
 /**
- * API Client - Centralized API service for EYE-CLYNIC Frontend
- * 
- * This file provides a ready-to-use API client with:
- * - Automatic token injection
- * - Error handling
- * - Token expiration handling
- * - Type-safe request methods
+ * API Client (Demo-only)
+ *
+ * Backend server integration has been removed from this repo.
+ * All API calls are served by `demoApiClient`, backed by localStorage.
  */
 
-import axios from "axios";
 import demoApiClient from "./demoApiClient";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
-const IS_DEMO_MODE =
-  import.meta.env.VITE_DEMO_MODE === "true" ||
-  !API_BASE_URL ||
-  API_BASE_URL === "demo";
-
-if (IS_DEMO_MODE && typeof window !== "undefined") {
-  // Helpful signal for demo deployments without a backend.
+if (typeof window !== "undefined") {
   window.__EYE_CLINIC_DEMO_MODE__ = true;
 }
 
-// Create axios instance (real backend) or fall back to demo client
-const apiClient = IS_DEMO_MODE
-  ? demoApiClient
-  : axios.create({
-      baseURL: API_BASE_URL,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+const apiClient = demoApiClient;
 
-/**
- * Get token from storage
- */
-const getToken = () => {
-  return localStorage.getItem('token');
-};
-
-/**
- * Clear auth data
- */
-const clearAuth = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  // Redirect to login if in browser
-  if (typeof window !== 'undefined') {
-    window.location.href = '/login';
-  }
-};
-
-// Request/response interceptors (real axios client only)
-if (!IS_DEMO_MODE) {
-  apiClient.interceptors.request.use(
-    (config) => {
-      const token = getToken();
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => Promise.reject(error)
-  );
-
-  apiClient.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error.response?.status === 401) {
-        clearAuth();
-      }
-
-      const errorMessage =
-        error.response?.data?.message || error.message || "An error occurred";
-
-      return Promise.reject({
-        message: errorMessage,
-        status: error.response?.status,
-        data: error.response?.data,
-      });
-    }
-  );
-}
+// Note: demoApiClient doesn't need interceptors; it returns axios-like shapes.
 
 // ============================================
 // AUTHENTICATION API

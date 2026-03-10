@@ -2,13 +2,15 @@
 
 import apiClient from "../../services/apiClient";
 
+const authHeaders = (token) => (token ? { Authorization: `Bearer ${token}` } : undefined);
+
 /**
  * Fetch all patients with optional filtering
  */
 export const fetchPatients = async (token, filters = {}) => {
   try {
     const response = await apiClient.get("/patients", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeaders(token),
       params: filters,
     });
     return response.data;
@@ -23,7 +25,7 @@ export const fetchPatients = async (token, filters = {}) => {
 export const fetchPatientById = async (token, id) => {
   try {
     const response = await apiClient.get(`/patients/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeaders(token),
     });
     return response.data;
   } catch (error) {
@@ -37,7 +39,7 @@ export const fetchPatientById = async (token, id) => {
 export const createPatient = async (token, patientData) => {
   try {
     const response = await apiClient.post("/patients", patientData, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeaders(token),
     });
     return response.data;
   } catch (error) {
@@ -51,7 +53,7 @@ export const createPatient = async (token, patientData) => {
 export const updatePatient = async (token, id, patientData) => {
   try {
     const response = await apiClient.put(`/patients/${id}`, patientData, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeaders(token),
     });
     return response.data;
   } catch (error) {
@@ -65,7 +67,7 @@ export const updatePatient = async (token, id, patientData) => {
 export const deletePatient = async (token, id) => {
   try {
     const response = await apiClient.delete(`/patients/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeaders(token),
     });
     return response.data;
   } catch (error) {
@@ -79,7 +81,7 @@ export const deletePatient = async (token, id) => {
 export const searchPatients = async (token, searchQuery) => {
   try {
     const response = await apiClient.get("/patients/search", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeaders(token),
       params: { q: searchQuery },
     });
     return response.data;

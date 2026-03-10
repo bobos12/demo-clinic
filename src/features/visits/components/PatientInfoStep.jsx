@@ -26,13 +26,17 @@ const PatientInfoStep = ({ formData, setFormData, token, currentStep }) => {
   // ===============================
   useEffect(() => {
     const loadPatients = async () => {
-      if (!token) return;
-
       setLoading(true);
       try {
         const data = await fetchPatients(token);
-        setPatients(data);
-        setFilteredPatients(data);
+        const sorted = [...(data || [])].sort((a, b) => {
+          const aTime = a?.createdAt ? Date.parse(a.createdAt) : 0;
+          const bTime = b?.createdAt ? Date.parse(b.createdAt) : 0;
+          if (aTime !== bTime) return bTime - aTime;
+          return String(b?._id || "").localeCompare(String(a?._id || ""));
+        });
+        setPatients(sorted);
+        setFilteredPatients(sorted);
       } catch (err) {
         console.error("Failed to load patients:", err);
       } finally {
@@ -132,6 +136,13 @@ const PatientInfoStep = ({ formData, setFormData, token, currentStep }) => {
       window.removeEventListener("resize", updatePosition);
     };
   }, [showDropdown, formData.patientId]);
+
+  // Auto-open dropdown when entering step 1 so recent patients are visible immediately.
+  useEffect(() => {
+    if (currentStep === 1 && !formData.patientId) {
+      setShowDropdown(true);
+    }
+  }, [currentStep, formData.patientId]);
 
   // ===============================
   // Handlers
